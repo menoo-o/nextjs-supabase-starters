@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Next.js 15 + Supabase SSR Authentication (Login + Signup)
 
-## Getting Started
+A complete, modern authentication setup using:
 
-First, run the development server:
+Next.js 15 server actions
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Supabase Auth with SSR
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Zod v4 validation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+useActionState for forms
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+proxy middleware for protected routes
 
-## Learn More
+Inline form errors (Zod)
 
-To learn more about Next.js, take a look at the following resources:
+Info messages (signup confirmation)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This README explains what was built, how it works, and how to extend it later.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+📁 Project Overview
 
-## Deploy on Vercel
+This auth setup includes:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Zod Schemas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For validating login + signup input on the server.
+
+2. Server Actions (loginAction, signupAction)
+
+  -Accept validated form data
+
+  -Return typed state (errors, issues, infoMessage)
+
+  -No redirects unless necessary
+
+  -Work seamlessly with useActionState
+
+3. Reusable Initial State Objects
+
+Ensures the form knows how to react to errors, success, and pending states.
+
+4. Supabase SSR Client
+
+Used inside server actions to perform login/signup securely.
+
+5. Protected Routes via proxy.ts
+
+Modern replacement for old Next.js middleware.
+This setup ensures:
+
+ -Only authenticated users can access /dashboard/**
+
+ -Redirects users to login
+
+ -Allows future expansions (role-based auth, route-specific rules)
+
+6. Clean Form Components
+
+Signup + login forms show:
+
+ -Inline error messages
+
+ -Disabled states
+
+ -Success banners
+
+No client-side JS needed beyond React
+
+**🚀 How the Flow Works**
+
+1. User submits form → useActionState runs the server action
+
+2. Server Action validates input (Zod)
+
+3. Server Action communicates with Supabase
+   
+4. Signup returns an info message
+
+5. Protected Routes via proxy
